@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TO DO - v.1</title>
+</head>
+<body style="width: 50%; margin: 0 auto; text-align: center;">
+
+	<h1 style="display: inline-block;">TO DO</h1>
+	<p style="display: inline-block;">v.1</p>
+
+	<div id="input">
+		<!-- se podría usar la propiedad required para la validación el input -->
+		<input 
+			type="text" 
+			id="taskDescription" 
+			style="width: 256px;"> 
+		<button onclick="newInput()">Agregar</button>
+	</div>
+
+	<div id="list" style="border-top: solid 1px gray; margin-top: 16px; text-align: left;">
+		<ul id="taskList">
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		let TaskId = 0;
+
+		function deleteTask(taskId_) {
+			document.getElementById(taskId_).remove();
+		}
+
+		function doneTask(taskId_) {
+			let taskDescription = document.getElementById(taskId_);
+			
+			if (taskDescription.firstChild.style.textDecoration === "line-through")
+				taskDescription.firstChild.style.textDecoration = "none";
+			else
+				taskDescription.firstChild.style.textDecoration = "line-through";
+		}
+
+		function newTask() {
+			const taskDescription = document.getElementById("taskDescription").value;
+
+			return `<li id="${TaskId}"><p style="display: inline;">${taskDescription}</p>&nbsp;<a href="#" id="doneTask" onclick="doneTask(${TaskId})">Hecho</a>&nbsp;<a href="#" id="deleteTask" onclick="deleteTask(${TaskId++})">Eliminar</a></li>`;
+		}
+
+		function addTask() {
+			document.getElementById("taskList").innerHTML += newTask();
+		}
+
+		function validateInput() {
+			const taskDescription = document.getElementById("taskDescription").value;
+
+			if (taskDescription.trim().length == 0) {
+				alert("Ingrese una tarea.");
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		function clearTaskDescription() {
+			document.getElementById("taskDescription").value = "";
+		}
+
+		function newInput() {
+			if (validateInput())
+				addTask();
+
+			clearTaskDescription();
+		}
+	</script>
+</body>
+</html>

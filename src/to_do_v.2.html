@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/style_one.css">
+
+	<title>TO DO v.</title>
+
+	<script src="https://kit.fontawesome.com/efbd2d36c5.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<div class="container">
+		<h1 id="title">TO DO</h1>
+		<p id="version"> v.</p>
+
+		<div id="input">
+			<input 
+				type="text" 
+				id="taskDescription"
+				onkeypress="newInputKey(event)"> 
+			<button class="btn" onclick="newInputButton()">Agregar</button>
+		</div>
+
+		<div id="list">
+			<ul id="taskList" class="scroll" style="list-style-type: none;">
+			</ul>
+		</div>
+	</div>
+
+	<!-- Venana modal por defecto no visible -->
+	<div id="modalWindow" class="modal">
+		<div class="modalContent">
+			<span class="closeModal">&times;</span>
+			<h2 id="modalTitle">TO DO</h2>
+			<p id="modalMessage">Mensaje</p>
+		</div>
+	</div>
+
+	<script src="js/Task.js"></script>
+	<script src="js/TaskList.js"></script>
+	<script src="js/ToDo.js"></script>
+	<script src="js/version.js"></script>
+
+	<script type="text/javascript">
+		let app = new ToDo();
+
+		focusTaskDescription();
+
+		function newInputKey (event_) {
+			const ENTER_KEY = "Enter";
+
+			if (event_.code == ENTER_KEY)
+				app.NewInput();
+		}
+
+		function newInputButton() {
+			app.NewTask();
+		}	
+
+		function focusTaskDescription() {
+			app.FocusTaskDescription();
+		}
+
+		function removeTask(taskId_) {
+			app.DeleteTask(taskId_);
+		}
+
+		function changeDoneTask(taskId_) {
+			app.DoneTask(taskId_);
+		}
+
+		let modal = document.getElementById("modalWindow");
+		let btnCloseModal = document.getElementsByClassName("closeModal")[0];
+
+		btnCloseModal.addEventListener("click", function() {
+			closeModal();
+		});
+
+		window.addEventListener("click", function () {
+			if (event.target == modal) 
+				closeModal();
+		});
+
+		function closeModal() {
+			modal.style.display = "none";
+
+			focusTaskDescription();
+		}
+
+	</script>
+</body>
+</html>

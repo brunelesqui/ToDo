@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TO DO v.1.1</title>
+</head>
+<body style="width: 50%; margin: 0 auto; text-align: center;">
+
+	<h1 id="title" style="display: inline-block;">TO DO</h1>
+	<p style="display: inline-block;">v.1.1</p>
+
+	<div id="input">
+		<!-- se podría usar la propiedad required para la validación el input -->
+		<input 
+			type="text" 
+			id="taskDescription" 
+			onkeypress="validateKey(event)" 
+			style="width: 512px;"> 
+		<button onclick="newInput()">Agregar</button>
+	</div>
+
+	<div id="list" style="border-top: solid 1px gray; margin-top: 16px; text-align: left;">
+		<ul id="taskList" style="list-style-type: none;">
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		let TaskId = 0;
+		let TaskArray = [];
+		
+		//localStorage.clear();
+		loadTaskList();
+
+		function deleteTask(taskId_) {
+			document.getElementById(taskId_).remove();
+		}
+
+		function deleteRecord(taskId_) {
+			for (let i = 0; i < TaskArray.length; i++) {
+				if(TaskArray[i].Id === taskId_) {
+					TaskArray.splice(i, 1);
+
+					break;
+				}
+			}
+		}
+
+		function removeTask(taskId_) {
+			deleteTask(taskId_);
+			deleteRecord(taskId_);
+			saveTaskList();
+		}
+
+		function doneTask(taskId_, done_) {
+			let taskDescription = document.getElementById(taskId_);
+			
+			/* v.1
+			if (taskDescription.firstChild.style.textDecoration === "line-through")
+				taskDescription.firstChild.style.textDecoration = "none";
+			else
+				taskDescription.firstChild.style.textDecoration = "line-through";
+			*/
+
+			/*
+			if (taskDescription.lastChild.style.textDecoration === "line-through")
+				taskDescription.lastChild.style.textDecoration = "none";
+			else
+				taskDescription.lastChild.style.textDecoration = "line-through";
+			*/
+
+			if(done_) 
+				taskDescription.lastChild.style.textDecoration = "line-through";
+			else
+				taskDescription.lastChild.style.textDecoration = "none";
+		}
+
+		function doneRecord(taskId_) {
+			for (let i = 0; i < TaskArray.length; i++) {
+				if(TaskArray[i].Id === taskId_) {
+					TaskArray[i].Done = !TaskArray[i].Done;
+
+					break;
+				}
+			}
+		}
+
+		function findId (id_) {
+			for (let i = 0; i < TaskArray.length; i++) {
+				if(TaskArray[i].Id === id_) {
+					return i;
+				}
+			}
+		}
+
+		function changeDoneTask(taskId_) {
+			doneRecord(taskId_);
+			doneTask(taskId_, TaskArray[findId(taskId_)].Done);
+			saveTaskList();
+		}
+
+		function getTaskDescription () {
+			return document.getElementById("taskDescription").value;
+		}
+
+		function newRecord(taskId_, taskDescription_, done_) {
+			return {
+				Id: taskId_,
+				Task: taskDescription_,
+				Done: done_
+			};
+		}
+
+		function addRecord(taskId_, taskDescription_, done_) { 
+
+//console.log(newRecord(taskId_, taskDescription_, done_));
+			
+			TaskArray.push(newRecord(taskId_, taskDescription_, done_));
+		}
+
+		function newTask(taskId_, taskDescription_) {
+			/* v.1: no dejar espacio entre li (nodo padre) y p (primer nodo hijo) porque cambia el comportamiento del programa.
+
+			return `<li id="${TaskId}"><p style="display: inline;">${taskDescription}</p>&nbsp;<a href="#" id="doneTask" onclick="doneTask(${TaskId})">Hecho</a>&nbsp;<a href="#" id="deleteTask" onclick="deleteTask(${TaskId++})">Eliminar</a></li>`;*/
+
+			return `<li id="${taskId_}"><a href="#" id="removeTask" onclick="removeTask(${taskId_})">Eliminar</a>&nbsp;<a href="#" id="changeDoneTask" onclick="changeDoneTask(${taskId_})">Hecho</a>&nbsp;<p style="display: inline;">${taskDescription_}</p></li>`;
+		}
+
+		function addTask(taskId_, taskDescription_) {
+			document.getElementById("taskList").innerHTML += newTask(taskId_, taskDescription_);
+		}
+
+		function validateInput() {
+			if (getTaskDescription().trim().length == 0) {
+				alert("Ingrese una tarea.");
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		function incrementTaskId() {
+			TaskId++;
+		}
+
+		function clearTaskDescription() {
+			document.getElementById("taskDescription").value = "";
+		}
+
+		function focusTaskDescription() {
+			document.getElementById("taskDescription").focus();
+		}
+
+		function newInput() {
+			if (validateInput()) {
+				addTask(TaskId, getTaskDescription());
+				addRecord(TaskId, getTaskDescription(), false);
+				incrementTaskId();
+
+				clearTaskDescription();
+				focusTaskDescription();
+				
+				saveTaskList();
+			}
+		}
+
+		function validateKey (event_) {
+			if (event_.code == "Enter")
+				newInput();
+		}
+
+		function saveTaskList () {
+			localStorage.setItem("taskList", JSON.stringify(TaskArray));
+		}
+
+		function loadTaskList () {
+			try {
+				TaskArray = JSON.parse(localStorage.getItem("taskList"));
+
+console.log("[loadTaskList] " + TaskArray.length);
+			
+				if (TaskArray.length > 0) {
+					for (let i = 0; i < TaskArray.length; i++) { 
+						addTask(TaskArray[i].Id, TaskArray[i].Task);
+						doneTask(TaskArray[i].Id, TaskArray[i].Done);
+					}
+
+					TaskId = TaskArray[TaskArray.length - 1].Id + 1;
+				}
+			} catch(error_) {
+console.log("[loadTaskList] " + error_.message);
+				TaskArray = [];
+			}
+		}
+
+	</script>
+</body>
+</html>

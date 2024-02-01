@@ -1,0 +1,20 @@
+TO DO es una aplicación web que permite registrar tareas en una única lista.
+
+Características v.2
+- Mejorar el aspecto visual para que sea responsivo
+- Utilizar íconos en opciones
+- Desarrollo orientado a objetos
+- Agregar un apartado de créditos
+
+Características v.1.1
+- Opciones a la izquierda
+- Quitar los puntos de la lista
+- Al presionar el Enter debe agregar la tarea
+- Una nueva tarea vuelve el foco a la entrada de texto
+- Almacenar la información al salir
+
+Características v.1
+- No se pueden ingresar tareas sin texto (en blanco o espacios solos)
+- Las tareas tienen dos estados a diferenciar: las que tienen el texto normal están pendientes,
+  mientras que las tachadas están completas
+- Es posible eliminar cualquier tarea de la lista

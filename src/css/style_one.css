@@ -1,0 +1,146 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap'); */
+@import url('/font/Lato-Regular.ttf');
+
+:root {
+	--magic-number: 16px;
+	--nigger-color: rgb(50,50,50);
+}
+
+body {
+	background-image: url("../img/istockphoto-1400136454-612x612.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-family: 'Lato', sans-serif;
+}
+
+.container {
+	background: linear-gradient(to right bottom, honeydew, silver);
+	width: 50%; 
+	height: 80vh;
+	text-align: center;
+
+	-webkit-box-shadow: 0px 0px 25px 0px rgba(0,0,0,1);
+	-moz-box-shadow: 0px 0px 25px 0px rgba(0,0,0,1);
+	box-shadow: 0px 0px 25px 0px rgba(0,0,0,1);
+}
+
+#list {
+	margin-top: var(--magic-number); 
+	text-align: left
+}
+
+.btn {
+	border: 2px solid white;
+	width: 100px;
+	background: none;
+	padding: 8px;
+	color: darkgray;
+	font-weight: 900;
+}
+
+.btn:focus {
+	outline-style: none;
+	background: darkgray;
+	color: white;
+}
+
+.btn:hover {
+	outline-style: none;
+	background: darkgray;
+	color: white;
+}
+
+input {
+	width: 480px;
+	font-weight: 900;
+	padding: 8px;
+	border: none;
+	background: none;
+	border-bottom: solid 1px darkgray;
+	color: var(--nigger-color);
+}
+
+input:focus {
+	outline-style: none;
+}
+
+h1 {
+	display: inline-block;
+	color: var(--nigger-color);
+}
+
+p {
+	display: inline-block;
+	color: darkgray;
+}
+
+.itemTask {
+	padding: 4px;
+}
+
+.itemTask a {
+	color: darkgray;
+	padding-right: 8px;
+}
+
+.itemTask a:hover {
+	color: var(--nigger-color);
+}
+
+.itemTask p {
+	color: var(--nigger-color);
+}
+
+.scroll {
+	ooverflow-y: scroll;
+	overflow-x: hidden;
+	max-height: 50vh;
+}
+
+.modal {
+	display: none; /* Oculto, por defecto */
+	position: fixed;
+	z-index: 1; /* Se situará por encima de otros elementos */
+	padding-top: 200px;
+	left: 0;
+	top:0;
+	width: 100%;
+	height: 100%;
+	overflow: auto; /* Se activara el scroll si es necesario */
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+	position: relative;
+	background-color: white;
+	margin: auto;
+	padding: 24px;
+	width: 20%;
+}
+
+.closeModal {
+	color: black;
+	float: right;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.closeModal:hover,
+.closeModal:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.modal p {
+	color: var(--nigger-color);
+}
+
+#modalTitle {
+	text-align: center;
+}
